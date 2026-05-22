@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String        @id @default(cuid())
+  username     String        @unique
+  passwordHash String        @map("password_hash")
+  role         String
+  transactions Transaction[]
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Product {
+  id              String             @id @default(cuid())
+  sku             String             @unique
+  name            String
+  category        String
+  costPrice       Float              @map("cost_price")
+  sellingPrice    Float              @map("selling_price")
+  stock           Int
+  transactionItems TransactionItem[]
+  createdAt       DateTime           @default(now()) @map("created_at")
+  updatedAt       DateTime           @updatedAt @map("updated_at")
+
+  @@map("products")
+}
+
+model Transaction {
+  id              String            @id @default(cuid())
+  transactionCode String            @unique @map("transaction_code")
+  totalPrice      Float             @map("total_price")
+  totalPaid       Float             @map("total_paid")
+  change          Float
+  cashierId       String            @map("cashier_id")
+  cashier         User              @relation(fields: [cashierId], references: [id])
+  items           TransactionItem[]
+  createdAt       DateTime          @default(now()) @map("created_at")
+
+  @@map("transactions")
+}
+
+model TransactionItem {
+  id            String      @id @default(cuid())
+  transactionId String      @map("transaction_id")
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  productId     String      @map("product_id")
+  product       Product     @relation(fields: [productId], references: [id])
+  quantity      Int
+  subtotal      Float
+
+  @@map("transaction_items")
+}
