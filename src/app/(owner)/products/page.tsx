@@ -55,7 +55,7 @@ export default function ProductsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Manajemen Produk</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Manajemen Produk</h1>
         <button
           onClick={() => {
             setEditProduct(undefined)
@@ -68,8 +68,8 @@ export default function ProductsPage() {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="px-5 py-4 border-b border-gray-100">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -80,15 +80,15 @@ export default function ProductsPage() {
                 setPage(1)
               }}
               placeholder="Cari produk berdasarkan nama atau SKU..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-gray-900 text-sm"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-gray-900 text-sm"
             />
           </div>
         </div>
 
         {loading ? (
-          <div className="p-8 text-center text-gray-400">Memuat data...</div>
+          <div className="p-8 text-center text-gray-400 dark:text-gray-500">Memuat data...</div>
         ) : paginatedProducts.length === 0 ? (
-          <div className="p-8 text-center text-gray-400">
+          <div className="p-8 text-center text-gray-400 dark:text-gray-500">
             {search ? "Tidak ada produk yang cocok." : "Belum ada produk. Klik \"Tambah Produk\" untuk memulai."}
           </div>
         ) : (
@@ -96,24 +96,24 @@ export default function ProductsPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-50 text-left">
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase">SKU</th>
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Nama</th>
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Kategori</th>
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase text-right">Harga Beli</th>
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase text-right">Harga Jual</th>
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase text-right">Stok</th>
-                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase text-center">Aksi</th>
+                  <tr className="bg-gray-50 dark:bg-gray-800 text-left">
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">SKU</th>
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Nama</th>
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Kategori</th>
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase text-right">Harga Beli</th>
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase text-right">Harga Jual</th>
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase text-right">Stok</th>
+                    <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase text-center">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                   {paginatedProducts.map((p) => (
-                    <tr key={p.id} className="hover:bg-gray-50/50">
-                      <td className="px-5 py-3 text-sm text-gray-500 font-mono">{p.sku}</td>
-                      <td className="px-5 py-3 text-sm font-medium text-gray-900">{p.name}</td>
-                      <td className="px-5 py-3 text-sm text-gray-600">{p.category}</td>
-                      <td className="px-5 py-3 text-sm text-gray-600 text-right">{formatRupiah(p.costPrice)}</td>
-                      <td className="px-5 py-3 text-sm text-gray-900 font-medium text-right">{formatRupiah(p.sellingPrice)}</td>
+                    <tr key={p.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
+                      <td className="px-5 py-3 text-sm text-gray-500 dark:text-gray-400 font-mono">{p.sku}</td>
+                      <td className="px-5 py-3 text-sm font-medium text-gray-900 dark:text-white">{p.name}</td>
+                      <td className="px-5 py-3 text-sm text-gray-600 dark:text-gray-300">{p.category}</td>
+                      <td className="px-5 py-3 text-sm text-gray-600 dark:text-gray-300 text-right">{formatRupiah(p.costPrice)}</td>
+                      <td className="px-5 py-3 text-sm text-gray-900 dark:text-white font-medium text-right">{formatRupiah(p.sellingPrice)}</td>
                       <td className="px-5 py-3 text-sm text-right">
                         <span
                           className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${

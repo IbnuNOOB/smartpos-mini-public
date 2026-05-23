@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Search, Grid3X3, List } from "lucide-react"
+import { Search } from "lucide-react"
 import { useCartStore } from "@/lib/store"
 import { formatRupiah } from "@/lib/utils"
 import CartPanel from "@/components/cart-panel"
@@ -18,7 +18,7 @@ interface Product {
   stock: number
 }
 
-export default function POSPage() {
+export default function PosPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
@@ -113,7 +113,7 @@ export default function POSPage() {
   return (
     <div className="flex h-full">
       <div className="flex-1 flex flex-col min-w-0">
-        <div className="px-4 py-3 bg-white border-b border-gray-200">
+        <div className="px-4 py-3 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -122,7 +122,7 @@ export default function POSPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Cari produk..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-gray-900 text-sm"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-gray-900 text-sm"
               />
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function POSPage() {
               className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition cursor-pointer ${
                 !selectedCategory
                   ? "bg-primary text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             >
               Semua
@@ -145,7 +145,7 @@ export default function POSPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition cursor-pointer ${
                   selectedCategory === cat
                     ? "bg-primary text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
               >
                 {cat}
@@ -156,13 +156,9 @@ export default function POSPage() {
 
         <div className="flex-1 overflow-y-auto p-4">
           {loading ? (
-            <div className="flex items-center justify-center h-full text-gray-400">
-              Memuat produk...
-            </div>
+            <div className="flex items-center justify-center h-full text-gray-400">Memuat produk...</div>
           ) : filteredProducts.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-gray-400">
-              Tidak ada produk ditemukan.
-            </div>
+            <div className="flex items-center justify-center h-full text-gray-400">Tidak ada produk ditemukan.</div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
               {filteredProducts.map((p) => {
@@ -184,24 +180,24 @@ export default function POSPage() {
                     disabled={p.stock === 0}
                     className={`relative p-4 rounded-xl border text-left transition cursor-pointer ${
                       p.stock === 0
-                        ? "bg-gray-50 border-gray-100 opacity-50"
+                        ? "bg-gray-50 dark:bg-gray-800 border-gray-100 dark:border-gray-700 opacity-50"
                         : cartItem
-                        ? "bg-primary/5 border-primary/30 hover:border-primary/60"
-                        : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                        ? "bg-primary/5 dark:bg-primary/10 border-primary/30 hover:border-primary/60"
+                        : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm"
                     }`}
                   >
                     {p.stock <= 5 && p.stock > 0 && (
-                      <span className="absolute top-2 right-2 bg-amber-100 text-amber-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                      <span className="absolute top-2 right-2 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                         Sisa {p.stock}
                       </span>
                     )}
                     {p.stock === 0 && (
-                      <span className="absolute top-2 right-2 bg-red-100 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                      <span className="absolute top-2 right-2 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                         Habis
                       </span>
                     )}
-                    <p className="text-sm font-medium text-gray-900 line-clamp-2 mb-2">{p.name}</p>
-                    <p className="text-xs text-gray-400 font-mono">{p.sku}</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 mb-2">{p.name}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 font-mono">{p.sku}</p>
                     <p className="text-sm font-bold text-primary mt-1">{formatRupiah(p.sellingPrice)}</p>
                     {cartItem && (
                       <div className="mt-2 inline-flex items-center gap-1 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -216,15 +212,15 @@ export default function POSPage() {
         </div>
       </div>
 
-      <div className="w-96 border-l border-gray-200 bg-white flex flex-col hidden lg:flex">
+      <div className="w-96 border-l border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hidden lg:flex flex-col">
         <CartPanel onCheckout={() => setShowCheckout(true)} />
       </div>
 
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg z-40">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
             <span className="text-xs text-gray-500">Total</span>
-            <p className="text-lg font-bold text-gray-900">{formatRupiah(total())}</p>
+            <p className="text-lg font-bold text-gray-900 dark:text-white">{formatRupiah(total())}</p>
           </div>
           <button
             onClick={() => setShowCheckout(true)}
